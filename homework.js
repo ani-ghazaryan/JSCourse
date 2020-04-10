@@ -130,9 +130,9 @@ function findOutAge(num, type) {
 
 // 9. Given three numbers. Sort them by the ascending order.
 function threeNumbersInAscending(a,b,c) {
-    max = Math.max(a,b,c);
-    min = Math.min(a,b,c);
-    mid = (a+b+c) - min - max;
+    let max = Math.max(a,b,c);
+    let min = Math.min(a,b,c);
+    let mid = (a+b+c) - min - max;
     console.log(min, mid, max);
 }
 
