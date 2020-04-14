@@ -2,21 +2,15 @@
 function isPrimeNumber(number) {
 	let isPrime = 0;
 
-	if(number == 1 || number == 2) {
-		return String(number + " is prime");
-
-	}
-
 	for (var i = 2; i <= number/2; i++) {
 		if (number%i == 0) {
-			isPrime++;
+			return String(number + " is not prime");
+			break;
 		}
 	}
 
 	if (isPrime == 0) {
 		return String(number + " is prime");
-	} else {
-		return String(number + " is not prime");
 	}
 }
 
@@ -116,18 +110,19 @@ function createAnArray(a,b,num) {
 
 // 6. Given an array of numbers. Find the index of the second maximum element.
 function findSecondMax(arr) {
-	let max = arr[0];
-	for (var i = 1; i < arr.length; i++) {
+	
+	let max = -Infinity;
+	for (var i = 0; i < arr.length; i++) {
 		if (arr[i] > max) {
 			max = arr[i];
 		}
 	}
 
 	let indexOfMax = arr.indexOf(max);
-	arr[indexOfMax] = 0;
+	arr[indexOfMax] = -Infinity;
 
-	max = arr[0];
-	for (var i = 1; i < arr.length; i++) {
+	max = -Infinity;
+	for (var i = 0; i < arr.length; i++) {
 		if (arr[i] > max) {
 			max = arr[i];
 		}
