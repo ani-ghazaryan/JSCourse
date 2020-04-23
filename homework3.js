@@ -14,6 +14,7 @@ function areDigitsOdd(number) {
 
 // 2. Write a recursive function to find its minimal positive element. 
 // (if such element does not exist, return -1)․
+// TODO
 function minPositiveElement(arr) {
 	
 	if (arr.length == 0) {
@@ -56,25 +57,9 @@ function fibonacci(n) {
 
 // 4. Given an array of nested arrays. Write a recursive function that flattens it. 
 // (Hint create function that concats arrays).
-function getNestedArray1(nestedArr, i = 0, tempArr = []) {
-
-	//debugger;
-	if (nestedArr.length == i) {
-		return tempArr;
-	}
-
-	if (nestedArr[i].length > 0) {
-		tempArr = tempArr.concat(nestedArr[i]);
-	} else {
-		tempArr.push(nestedArr[i]);
-	}
-
-	i++;
-	return getNestedArray1(nestedArr, i, tempArr);
-
-}
-
-function getNestedArray2(nestedArr, tempArr = []) {
+// [[1], [[2, 3], [4, 5]], [6, 7], 8, 9]
+// [1, [3, 4], [1, 2], 10]
+function getNestedArray(nestedArr, tempArr = []) {
 
 	//debugger;
 	if (nestedArr.length == 0) {
@@ -83,11 +68,11 @@ function getNestedArray2(nestedArr, tempArr = []) {
 
 	let item = nestedArr.shift();
 	if (Array.isArray(item)) {
-		return getNestedArray2(item, tempArr);
+		getNestedArray(item, tempArr);
 	} 
 	
 	tempArr.push(item);
-	return getNestedArray2(nestedArr, tempArr);
+	return getNestedArray(nestedArr, tempArr);
 	
 }
 
