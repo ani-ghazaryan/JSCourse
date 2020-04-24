@@ -58,7 +58,7 @@ function fibonacci(n) {
 // [1, [3, 4], [1, 2], 10]
 function getNestedArray(nestedArr, tempArr = []) {
 
-	debugger;
+	//debugger;
 	if (nestedArr.length == 0) {
 		return tempArr;
 	}
@@ -66,9 +66,10 @@ function getNestedArray(nestedArr, tempArr = []) {
 	let item = nestedArr.shift();
 	if (Array.isArray(item)) {
 		getNestedArray(item, tempArr);
-	} 
+	} else {
+		tempArr.push(item);		
+	}
 	
-	tempArr.push(item);
 	return getNestedArray(nestedArr, tempArr);
 	
 }
