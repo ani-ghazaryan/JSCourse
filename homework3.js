@@ -5,31 +5,28 @@ function areDigitsOdd(number) {
 		return false;
 	} 
 
-	if (number < 10) {
+	if (Math.abs(number) < 10) {
 		return true;
 	}
 
-	return areDigitsOdd(Math.floor(number/10));
+	number = (number - number %10) / 10;
+	return areDigitsOdd(number);
 }
 
 // 2. Write a recursive function to find its minimal positive element. 
 // (if such element does not exist, return -1)․
-// TODO
-function minPositiveElement(arr) {
+function minPositiveElement(arr, min = +Infinity) {
 	
 	if (arr.length == 0) {
-		return -1;
+		return (min == +Infinity) ? -1 : min;
 	}
 
-	let min = Math.min(...arr);
-	if (min >= 0) {
-		return min;
+	let temp = arr.shift();
+	if(min >= temp && temp >=0) {
+		min = temp;
 	}
 
-	let indexOfMin = arr.indexOf(min);
-	arr.splice(indexOfMin,1);
-
-	return minPositiveElement(arr);
+	return minPositiveElement(arr, min);
 }
 
 // 3. Write a recursive function which receives a number as arguments and 
@@ -61,7 +58,7 @@ function fibonacci(n) {
 // [1, [3, 4], [1, 2], 10]
 function getNestedArray(nestedArr, tempArr = []) {
 
-	//debugger;
+	debugger;
 	if (nestedArr.length == 0) {
 		return tempArr;
 	}
