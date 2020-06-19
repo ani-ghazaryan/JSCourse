@@ -168,7 +168,7 @@ class Book {
     }
 
     get author() {
-        return this._author.toString();
+        return this._author.name();
     }
 
     /**
@@ -222,7 +222,8 @@ class Book {
 
     toString() {
 
-        if(Object.getOwnPropertyNames(this).length == 3) {
+        //debugger;
+        if(Object.getOwnPropertyNames(this).length == 4) {
             let result = this._author.toString() + "\n";       
 
             result += "Who is author of '" + this._title + "' book. It was published in " + this._quantity + "examples and costs " + this._price + " AMD.";
@@ -233,6 +234,15 @@ class Book {
     }
 
 }
+
+let a1 = new Author("Stephen King", "stephenking@gmail.com", 'M');
+let a2 = new Author("J.K. Rowling", "jkrowling@gmail.com", 'F');
+a1.toString();
+let b1 = new Book("It", a1, 6500, 20000);
+let b2 = new Book("Harry Potter and the Order of the Phoenix", a2, 7500, 40000);
+b1.getProfit();
+b2.toString();
+
 
 // 2. Create an Account class. Account should have: id, name, balance.
 // It should have setters for name and balance, and getters for all fields.
@@ -351,12 +361,13 @@ class Account{
     }
 
     static identifyAccounts(accountFirst, accountSecond) {
-        debugger;
+        //debugger;
         if( Object.getOwnPropertyNames(accountFirst).length == 3 && Object.getOwnPropertyNames(accountSecond).length == 3) {
-            let keysOfAccount = Object.getOwnPropertyNames(accountFirst);
+            let valuesOfFirstAccount = Object.values(accountFirst);
+            let valuesOfSecondAccount = Object.values(accountSecond);
 
-            for (let i in keysOfAccount) {
-                if(accountFirst[i] == accountSecond[i]) {
+            for (let i = 1; i < 4; i++) {
+                if(valuesOfFirstAccount[i] == valuesOfSecondAccount[i]) {
                     continue;
                 } else {
                     return "These are two different accounts"
@@ -382,7 +393,7 @@ class Account{
 
     toString() {
 
-        if(Object.getOwnPropertyNames(anotherAccount).length == 3) {
+        if(Object.getOwnPropertyNames(this).length == 3) {
             let result = "This is an account of " + this._name + " with " + this._balance + " AMD . \n";
             result += "Important! Account id can't be displayed!";
             return result;
@@ -392,6 +403,13 @@ class Account{
     }
 
 }
+
+let acc1 = new Account("Lady Bug", 12500);
+let acc2 = new Account("Snake Plant", 170500);
+acc1.credit(4500);
+acc1.transferTo(acc2, 3500);
+acc2.debit(13500);
+Account.identifyAccounts(acc1, acc2);
 
 // 3. Write classes: Person, Student, Staff.
 // Person should have: firstName, lastName, gender, age.
@@ -411,95 +429,288 @@ class Account{
 
 class Person {
 
+    /**
+     * 
+     * @param {string} firstName Person firstname
+     * @param {string} lastName Person lastname
+     * @param {string} gender Person gender
+     * @param {number} age Person age
+     */
     constructor(firstName, lastName, gender, age) {
-        this._firstName = firstName;
-        this._lastName = lastName;
-        this._gender = gender;
-        this._age = age;
+        // this._firstName = firstName;
+        // this._lastName = lastName;
+        // this._gender = gender;
+        // this._age = age;
+
+        if (firstName.length > 3 && /^[a-z A-Z]+|(\.+)$/.test(firstName)) {
+            this._firstName = firstName;
+        } else {
+            console.log("Person firstname is invalid. Please, insert a name with more than three letters");
+        }
+
+        if (lastName.length > 3 && /^[a-z A-Z]+|(\.+)$/.test(lastName)) {
+            this._lastName = lastName;
+        } else {
+            console.log("Person lastname is invalid. Please, insert a name with more than three letters.");
+        }
+
+        if (gender == 'F' || gender == 'M') {
+            this._gender = gender;
+        } else {
+            console.log("Person's gender is invalid. Please, insert 'F' for female People, 'M' for male People.")
+        }
+
+        if(Number(age) > 0) {
+            this._age = age;
+        } else {
+            console.log("Please, insert a valid age, it should be number.");
+        }
+
     }
 
     get firstName(){
         return this._firstName;
     }
 
-    // TODO: check - firstName contains only letters
+    /**
+     * 
+     * @param {string} newFirstName New firstname for Person, which should be at least 4 letters and can contain '.' from the symbols
+     */
     set firstName(newFirstName){
-        this._firstName = newFirstName;
+        if (newFirstName.length > 3 && /^[a-z A-Z]+|(\.+)$/.test(newFirstName)) {
+            this._firstName = newFirstName;
+        } else {
+            console.log("Person firstname is invalid. Please, insert a name with more than three letters");
+        }
+        
     }
 
     get lastName(){
         return this._lastName;
     }
 
-    // TODO: check - lastName contains only letters
+    /**
+     * 
+     * @param {string} newLastName New lastname for Person, which should be at least 4 letters and can contain '.' from the symbols
+     */
     set lastName(newLastName){
-        this._lastName = newLastName;
+        if (newLastName.length > 3 && /^[a-z A-Z]+|(\.+)$/.test(newLastName)) {
+            this._lastName = newLastName;
+        } else {
+            console.log("Person lastname is invalid. Please, insert a name with more than three letters.");
+        }
     }
 
     get gender(){
         return this._gender;
     }
 
-    // TODO: check - firstName contains only letters
+    /**
+     * 
+     * @param {string} newGender New gender for Person, which should be 'F' for female People, "M" for male People
+     */
     set gender(newGender){
-        this._gender = newGender;
+        if (newGender == 'F' || newGender == 'M') {
+            this._gender = newGender;
+        } else {
+            console.log("Person's gender is invalid. Please, insert 'F' for female People, 'M' for male People.")
+        }
     }
 
     get age(){
         return this._age;
     }
 
-    // TODO: check - lastName contains only letters
+    /**
+     * 
+     * @param {number} newAge New age for Person, which should be a positive number.
+     */
     set age(newAge){
-        this._age = newAge;
+        if(Number(newAge) > 0) {
+            this._age = newAge;
+        } else {
+            console.log("Please, insert a valid age, it should be number.");
+        }
     }
 
     toString(){
 
-        let result = "Let me introduce you " + this.firstName + "  " + this.lastName + "person.";
-        if (this.gender == "F") {
-            result += "She is ";
-        } else {
-            result += "He is ";
-        }
+        debugger;
+        if(Object.getOwnPropertyNames(this).length == 5) {
+            let result = "Let me introduce you " + this.firstName + "  " + this.lastName + ".";
+            if (this.gender == "F") {
+                result += "She is ";
+            } else {
+                result += "He is ";
+            }
 
-        result += this.age + " years old.";
-        return result;
+            result += this.age + " years old.";
+            return result;
+        } else {
+            console.log("Person has missing data and cannot be printed!");
+        }
+        
     }
 
 }
 
 class Student extends Person{
 
-    constructor(firstName, lastName, gender, age, program, year, fee) {
+    // TODO: Validations should be added for constructor
+
+    /**
+     * 
+     * @param {string} firstName Firstname of Student
+     * @param {string} lastName Lastname of Student
+     * @param {string} gender Gender of Student
+     * @param {number} age Age of Student
+     * @param {Array[string]} program Program list of Studet
+     * @param {number} year ClassYear of Student
+     * @param {number} fee Fee per year
+     */
+    constructor(firstName, lastName, gender, age, programs, year, fee) {
         super(firstName, lastName, gender, age);
-        this._program = program;
+        this._programs = programs;
         this._year = year;
         this._fee = fee;
     }
 
-    get program(){
-        return this._program;
+    get programs(){
+        return this._programs;
     }
 
-    set program(newProgram) {
-        this._program = newProgram;
+    /**
+     * @param {Array[string]} newProgram New program for Student, which have at least one class
+     */
+    set programs(newPrograms) {
+        if(newPrograms.length > 0) {
+            this._programs = newPrograms;
+        } else {
+            console.log("Your program list is empty. Pick a new one!");
+        }
+        
     }
 
     get year(){
         return this._program;
     }
 
+    /**
+     * @param {number} newYear New class year for Student
+     */
     set year(newYear) {
-        this._year = newYear;
+        if(newYear >= new Date().getFullYear()) {
+            this._year = newYear;
+        } else {
+            console.log("Please, insert year which is greater or equal to the current year.")
+        }
+       
     }
 
     get fee(){
         return this._fee;
     }
 
+    /**
+     * @param {number} newFee New fee per year, which cannot be negative number.
+     */
     set fee(newFee) {
-        this._fee = newFee;
+        if(Number(newFee) > 0) {
+            this._fee = newFee;
+        } else {
+            console.log("Please, insert a valid fee per year.");
+        }
+        
+    }
+
+    // ???????????? Not quite sure I got this correct
+    passExam(program, grade) {
+        if(grade > 50) {
+            this._year++;
+        }
+    }
+
+    toString() {
+        super.toString();
+        let result = "";
+        if (this.gender == "F") {
+            result += "She is a student of ";
+        } else {
+            result += "He is a student of ";
+        }
+        result += this._year + " class year. The program list contans these classes : " + this._programs + ". The fee per year is " + this._fee + "AMD";
+        return result;
+
     }
 
 }
+
+class Teacher extends Person {
+
+    // TODO Validations should be added for constructor
+    /**
+     * 
+     * @param {string} firstName Firstname of Teacher
+     * @param {string} lastName Lastname of Teacher
+     * @param {string} gender Gender of Teacher
+     * @param {number} age Age of Teacher
+     * @param {string} program Program being tought by Teacher 
+     * @param {*} salary Salary of Teacher
+     */
+    constructor(firstName, lastName, gender, age, program, salary) {
+        super(firstName, lastName, gender, age);
+        this._program = program;
+        this._salary = salary;
+    }
+
+    get program(){
+        return this._program
+    }
+
+    /**
+     * @param {string} newProgram New program for Teacher, which cannot be empty
+     */
+    set program(newProgram) {
+        if(newProgram.length > 0) {
+            this._program = newProgram;
+        } else {
+            console.log("Please, insert a valid progran name.")
+        }
+    }
+
+    get salary(){
+        return this._salary;
+    }
+
+    /**
+     * @param {number} newSalary New salary for Teacher
+     */
+    set salary(newSalary){
+        if(newSalary > this._salary) {
+            this._salary = newSalary;
+        } else {
+            console.log("Please, insert valid salary, which is higher than the previous one.")
+        }
+        
+    }
+
+    toString() {
+        super.toString();
+        let result = "";
+        if (this.gender == "F") {
+            result += "She teaches";
+        } else {
+            result += "He teaches";
+        }
+
+        result += this._program + " and gets " + this._salary + " AMD per month.";
+        return result;
+
+    }
+
+}
+
+let s1 = new Student("Fred", "Weasley", "M", 21, ["Math", "Chemistry"], 2020, 350000);
+let s2 = new Student("George", "Weasley", "M", 21, ["Math", "Chemistry"], 2020, 350000);
+let t1 = new Teacher("Severus", "Snape", "M", 45, "Dark Arts", 600000)
+let t2 = new Teacher("Minerva", "McGonagall", "F", 40, "Transfiguration ", 1600000)
