@@ -11,16 +11,15 @@ class Author {
 
     /**
      * 
-     * @param {name}- contains only letters and '.'s  and lenght is more than 7 chars
-     * @param {email} - 'xxx@xxx.xxx' format is accepted
-     * @param {gender} - is 'F' for female Authors, "M" for male Authors
+     * @param {string} name The name of Author
+     * @param {string} email The email of Author
+     * @param {string} gender The gender of Author
      */
     constructor(name, email, gender) {
         // this._name = name;
         // this._email = email;
         // this._gender = gender;
         
-        debugger;
         if(name.length > 7 && /^[a-z A-Z]+|(\.+)$/.test(name)) {
             this._name = name;
         } else {
@@ -46,7 +45,8 @@ class Author {
     }
 
     /**
-     * @param {newName} - contains only letters and '.'s  and lenght is more than 7 chars
+     * 
+     * @param {string} newName New name for Author, which contains only letters and '.'s  and lenght is more than 7 chars
      */
     set name(newName){
         if(newName.length > 7 && /^[a-z A-Z]+|(\.+)$/.test(newName)) {
@@ -61,7 +61,8 @@ class Author {
     }
 
     /**
-     * @param {newEmail} - 'xxx@xxx.xxx' format is accepted
+     * 
+     * @param {string} newEmail New email for Author, which should be in 'xxx@xxx.xxx' format
      */
     set email(newEmail){
         if(newEmail.length > 5 && /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(newEmail)) {
@@ -76,7 +77,8 @@ class Author {
     }
 
     /**
-     * @param {changedGender} - is 'F' for female Authors, "M" for male Authors
+     * 
+     * @param {string} changedGender New gender for Author, which should be 'F' for female Authors, "M" for male Authors
      */
     set gender(changedGender){
         if (changedGender == 'F' || changedGender == 'M') {
@@ -88,7 +90,7 @@ class Author {
 
     toString(){
 
-        if(Object.getOwnPropertyNames(this) == 3) {
+        if(Object.getOwnPropertyNames(this).length == 3) {
             let result = "Let me introduce you " + this.name + ". ";
             if (this.gender == "F") {
                 result += "Her email address is: ";
@@ -110,10 +112,10 @@ class Book {
 
     /**
      * 
-     * @param {title} - title of the book, which cannot be empty
-     * @param {author} - Author of the book, which cannot be an empty object
-     * @param {price} - price of the book, which cannot be a negative number
-     * @param {quantity} - quantity of the published books, which cannot be a negative number
+     * @param {string} title The title of the book
+     * @param {Author} Author The Author of the book
+     * @param {number} price The price of the book
+     * @param {number} quantity The quantity of the published items
      */
     constructor(title, author, price, quantity) {
 
@@ -128,7 +130,7 @@ class Book {
             console.log("Book's title cannot be empty. Please, insert a valid title with .title setter");
         }
 
-        if(Object.getOwnPropertyNames(author) == 3) {
+        if(Object.getOwnPropertyNames(author).length == 3) {
             let [name, email, gender] = Object.values(author);
             this._author = new Author(name, email, gender);
         } else {
@@ -154,7 +156,8 @@ class Book {
     }
 
     /**
-     * @param {newTitle} - title cannot be empty
+     * 
+     * @param {string} title New title of the Book, which cannot be empty
      */
     set title(newTitle){
         if(newTitle.length != 0) {
@@ -169,10 +172,11 @@ class Book {
     }
 
     /**
-     * @param {author} - Author cannot be an empty object
+     * 
+     * @param {Author} Author New Author for the book, which cannot be an empty object
      */
     set author(author) {
-        if(Object.getOwnPropertyNames(author) == 3) {
+        if(Object.getOwnPropertyNames(author).length == 3) {
             let [name, email, gender] = Object.values(author);
             this._author = new Author(name, email, gender);
         } else {
@@ -185,7 +189,8 @@ class Book {
     }
 
     /**
-     * @param {newPrice} - price cannot be a negative number
+     * 
+     * @param {number} newPrice New price for a book, which cannot be a negative number
      */
     set price(newPrice){
         if(Number(newPrice) > 0) {
@@ -200,7 +205,8 @@ class Book {
     }
 
     /**
-     * @param {newQuantity} - quantity cannot be a negative number
+     * 
+     * @param {number} newQuantity New quantity for the published items, which cannot be a negative number
      */
     set quantity(newQuantity){
         if(Number(newQuantity) > 0) {
@@ -216,7 +222,7 @@ class Book {
 
     toString() {
 
-        if(Object.getOwnPropertyNames(this) == 3) {
+        if(Object.getOwnPropertyNames(this).length == 3) {
             let result = this._author.toString() + "\n";       
 
             result += "Who is author of '" + this._title + "' book. It was published in " + this._quantity + "examples and costs " + this._price + " AMD.";
@@ -249,11 +255,11 @@ class Account{
 
     /**
      * 
-     * @param {name} - Account holder name, which should be at least more than 7 letters
-     * @param {*} balance - Account balance, which should not be less than 0
+     * @param {string} name Account holder name
+     * @param {number} balance A balance on an account 
      */
     constructor(name, balance) {
-        this._id = ++Account.id;
+        this._id = Account.id++;
 
         if(name.length > 7 && /^[a-z A-Z]+|(\.+)$/.test(name)) {
             this._name = name;
@@ -270,7 +276,7 @@ class Account{
 
     /**
      * 
-     * @param {name} - Account holder name, which should be at least more than 7 letters
+     * @param {string} newName New name for Account holder, which should be at least more than 7 letters
      */
     set name(newName){
         if(newName.length > 7 && /^[a-z A-Z]+|(\.+)$/.test(newName)) {
@@ -286,7 +292,7 @@ class Account{
 
     /**
      * 
-     * @param {newBalance} - Account balance should not be less than 0
+     * @param {number} newBalance New balance on an account, which should not be less than 0
      */
     set balance(newBalance){
         if(Number(newBalance) > 0) {
@@ -307,19 +313,18 @@ class Account{
     credit(amount) {
         if(amount > 0) {
             this._balance += amount;
-            return this._balance;
+            return "Your new balance is " + this._balance;
         } else {
             return "Your balance has not been changed.";
         }
         
     }
 
-    // TODO: check - amount cannot be negative
     debit(amount) {
         if(amount > 0) {
             if(amount < this._balance) {
                 this._balance -= amount;
-                return this._balance;
+                return "Your new balance is " + this._balance;
             } else {
                 return "Amount exceeded balance.";
             }
@@ -331,11 +336,11 @@ class Account{
 
     transferTo(anotherAccount, amount) {
         
-        if(Object.getOwnPropertyNames(anotherAccount) == 3 && amount > 0) {
+        if(Object.getOwnPropertyNames(anotherAccount).length == 3 && amount > 0) {
             if(amount < anotherAccount.balance) {
                 this._balance -= amount;
                 anotherAccount.balance += amount;
-                return this._balance;
+                return "Your new balance is " + this._balance;
             } else {
                 return "Amount exceeded balance.";
             }
@@ -345,9 +350,29 @@ class Account{
 
     }
 
-    // As ID is 'generated' for each instance of a class, I compare accounts with IDs. 
     static identifyAccounts(accountFirst, accountSecond) {
         debugger;
+        if( Object.getOwnPropertyNames(accountFirst).length == 3 && Object.getOwnPropertyNames(accountSecond).length == 3) {
+            let keysOfAccount = Object.getOwnPropertyNames(accountFirst);
+
+            for (let i in keysOfAccount) {
+                if(accountFirst[i] == accountSecond[i]) {
+                    continue;
+                } else {
+                    return "These are two different accounts"
+                }
+            }
+
+            return "These accounts have the same data";
+
+        } else {
+            return "These are invalid accounts and cannot be compared";
+        }
+        
+    }
+
+    // As ID is 'generated' for each instance of a class, I compare accounts with IDs. 
+    static identifyAccountsByIDs(accountFirst, accountSecond) {
         if (accountFirst.id == accountSecond.id) {
             return "These accounts are the same";
         } else {
@@ -357,14 +382,13 @@ class Account{
 
     toString() {
 
-        if(Object.getOwnPropertyNames(anotherAccount) == 3) {
+        if(Object.getOwnPropertyNames(anotherAccount).length == 3) {
             let result = "This is an account of " + this._name + " with " + this._balance + " AMD . \n";
             result += "Important! Account id can't be displayed!";
             return result;
         } else {
             return "This Account is missing some info. Review it and add neccessary info. Good luck!";
-        }
-        
+        }    
     }
 
 }
@@ -432,7 +456,6 @@ class Person {
 
     toString(){
 
-        //debugger;
         let result = "Let me introduce you " + this.firstName + "  " + this.lastName + "person.";
         if (this.gender == "F") {
             result += "She is ";
@@ -449,7 +472,7 @@ class Person {
 class Student extends Person{
 
     constructor(firstName, lastName, gender, age, program, year, fee) {
-        this.person = super(firstName, lastName, gender);
+        super(firstName, lastName, gender, age);
         this._program = program;
         this._year = year;
         this._fee = fee;
