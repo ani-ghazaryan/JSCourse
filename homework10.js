@@ -16,28 +16,11 @@ class Author {
      * @param {string} gender The gender of Author
      */
     constructor(name, email, gender) {
-        // this._name = name;
-        // this._email = email;
-        // this._gender = gender;
         
-        if(name.length > 7 && /^[a-z A-Z]+|(\.+)$/.test(name)) {
-            this._name = name;
-        } else {
-            console.log("Author's name is invalid. Please, create an Author, whose name contains only letters, \n dots and is more than 10 letters. Use .name setter");
-        }
-
-        if(email.length > 5 && /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(email)) {
-            this._email = email;
-        } else {
-            console.log("Author's email is invalid. Please, insert an email with xxx@xxx.xxx format");
-        }
-
-        if (gender == 'F' || gender == 'M') {
-            this._gender = gender;
-        } else {
-            console.log("Author's gender is invalid. Please, insert 'F' for female Authors, 'M' for male Authors. Use .gender setter")
-        }
-
+        this.name = name;
+        this.email = email;
+        this.gender = gender;
+    
     }
     
     get name(){
@@ -52,7 +35,8 @@ class Author {
         if(newName.length > 7 && /^[a-z A-Z]+|(\.+)$/.test(newName)) {
             this._name = newName;
         } else {
-            console.log("Author's name is invalid. Please, create an Author, whose name contains only letters, \n dots and is more than 10 letters. Use .name setter");
+            this._name = "Unknown";
+            console.log("Author's name is set to 'Unknown'. Please, set a valid name, which contains only letters, \n dots and is more than 7 letters.");
         }  
     }
 
@@ -68,7 +52,8 @@ class Author {
         if(newEmail.length > 5 && /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(newEmail)) {
             this._email = newEmail;
         } else {
-            console.log("Author's email is invalid. Please, insert an email with xxx@xxx.xxx format");
+            this._email = "invalid@inva.lid";
+            console.log("Author's email is set to 'invalid@inva.lid'. Please, set a valid email with xxx@xxx.xxx format.");
         }
     }
 
@@ -84,24 +69,18 @@ class Author {
         if (changedGender == 'F' || changedGender == 'M') {
             this._gender = changedGender;
         } else {
-            console.log("Author's gender is invalid. Please, insert 'F' for female Authors, 'M' for male Authors. Use .gender setter")
+            this._gender = "unknown";
+            console.log("Author's gender is set to 'unknown'. Please, set a valid gender with 'F' for female Authors, 'M' for male Authors.")
         }
     }
 
     toString(){
-
-        if(Object.getOwnPropertyNames(this).length == 3) {
-            let result = "Let me introduce you " + this.name + ". ";
-            if (this.gender == "F") {
-                result += "Her email address is: ";
-             } else {
-                result += "His email address is: ";
-            }
-
-            result += this.email + " .";
+        //debugger;
+        if(this instanceof Author) {
+            let result = "Name: " + this._name + ", email: '" + this._email + "', gender: " + this._gender + ".";
             return result;
         } else {
-            return "This Author is missing some info. Review it and add neccessary info. Good luck!";
+            return "Invalid object! Not printable!";
         }
         
     }
@@ -119,35 +98,10 @@ class Book {
      */
     constructor(title, author, price, quantity) {
 
-        // this._title = title;
-        // this._author = author;
-        // this._price = price;
-        // this._quantity = quantity;
-
-        if(title.length != 0) {
-            this._title = title;
-        } else {
-            console.log("Book's title cannot be empty. Please, insert a valid title with .title setter");
-        }
-
-        if(Object.getOwnPropertyNames(author).length == 3) {
-            let [name, email, gender] = Object.values(author);
-            this._author = new Author(name, email, gender);
-        } else {
-            console.log("Author has missing some info, however it was set to the Book");
-        }
-
-        if(Number(price) > 0) {
-            this._price = price;
-        } else {
-            console.log("Please, insert a valid price, it should be a positive number");
-        }
-
-        if(Number(quantity) > 0) {
-            this._quantity = quantity;
-        } else {
-            console.log("Please, insert a valid quantity, it should be a positive number");
-        }
+        this.title = title;
+        this.author = author;
+        this.price = price;
+        this.quantity = quantity;
 
     }
 
@@ -163,12 +117,13 @@ class Book {
         if(newTitle.length != 0) {
             this._title = newTitle;
         } else {
-            console.log("Book's title cannot be empty. Please, insert a valid title with .title setter");
+            this._title = "Untitled";
+            console.log("Book's title is set to 'Untitled'. Please, insert a valid title.");
         }
     }
 
     get author() {
-        return this._author.name();
+        return this._author;
     }
 
     /**
@@ -176,11 +131,12 @@ class Book {
      * @param {Author} Author New Author for the book, which cannot be an empty object
      */
     set author(author) {
-        if(Object.getOwnPropertyNames(author).length == 3) {
+        if(author instanceof Author) {
             let [name, email, gender] = Object.values(author);
             this._author = new Author(name, email, gender);
         } else {
-            console.log("Author has missing some info, however it was set to the Book");
+            this._author = {};
+            console.log("No Author is set to this book. Please, set a valid Author.");
         }
     }
 
@@ -196,7 +152,8 @@ class Book {
         if(Number(newPrice) > 0) {
             this._price = newPrice;
         } else {
-            console.log("Please, insert a valid price, it should be a positive number");
+            this._price = 0;
+            console.log("Book's price is set to 0. Please, insert a valid price, which is a positive number.");
         }
     }
 
@@ -212,7 +169,8 @@ class Book {
         if(Number(newQuantity) > 0) {
             this._quantity = newQuantity;
         } else {
-            console.log("Please, insert a valid quantity, it should be a positive number");
+            this._quantity = 0;
+            console.log("Book's quantity is set to 0. Please, insert a valid quantity, which is a positive number.");
         }
     }
 
@@ -221,15 +179,11 @@ class Book {
     }
 
     toString() {
-
         //debugger;
-        if(Object.getOwnPropertyNames(this).length == 4) {
-            let result = this._author.toString() + "\n";       
-
-            result += "Who is author of '" + this._title + "' book. It was published in " + this._quantity + "examples and costs " + this._price + " AMD.";
-            return result;
+        if(this instanceof Book) {
+            return "Title: '" + this._title + "', Author: " + this.author.toString() + ". Price: " + this._price + " AMD, quantity: " + this._quantity + " .";
         } else {
-            return "This Book is missing some info. Review it and add neccessary info. Good luck!";
+            return "Invalid object! Not printable!";
         }
     }
 
@@ -261,7 +215,7 @@ b2.toString();
 
 class Account{
 
-    static id = 0;
+    static _id = 0;
 
     /**
      * 
@@ -269,19 +223,11 @@ class Account{
      * @param {number} balance A balance on an account 
      */
     constructor(name, balance) {
+
         this._id = Account.id++;
-
-        if(name.length > 7 && /^[a-z A-Z]+|(\.+)$/.test(name)) {
-            this._name = name;
-        } else {
-            console.log("Account holder's name is invalid. Please, create an Account holder, whose name contains only letters, \n dots and is more than 10 letters. Use .name setter");
-        }
-
-        if(Number(balance) > 0) {
-            this._balance = balance;
-        } else {
-            console.log("Please, insert a valid balance, it should be more than 0");
-        }
+        this.name = name;
+        this.balance = balance;
+    
     }
 
     /**
@@ -292,7 +238,8 @@ class Account{
         if(newName.length > 7 && /^[a-z A-Z]+|(\.+)$/.test(newName)) {
             this._name = newName;
         } else {
-            console.log("Account holder's name is invalid. Please, create an Account holder, whose name contains only letters, \n dots and is more than 10 letters. Use .name setter");
+            this._name = "Unknown"
+            console.log("Account holder's name is set to 'Unknown'. Please, create an Account holder, whose name contains only letters, \n dots and is more than 7 letters.");
         }
     }
 
@@ -308,7 +255,8 @@ class Account{
         if(Number(newBalance) > 0) {
             this._balance = newBalance;
         } else {
-            console.log("Please, insert a valid balance, it should be more than 0");
+            this._balance = 0;
+            console.log("Account balance is set to 0. Please, insert a valid balance, which is greater than 0");
         }
     }
 
@@ -323,9 +271,9 @@ class Account{
     credit(amount) {
         if(amount > 0) {
             this._balance += amount;
-            return "Your new balance is " + this._balance;
+            return "Your new balance is " + this._balance + " AMD";
         } else {
-            return "Your balance has not been changed.";
+            return "The requested money is greater than your balance. It has not been changed.";
         }
         
     }
@@ -334,25 +282,25 @@ class Account{
         if(amount > 0) {
             if(amount < this._balance) {
                 this._balance -= amount;
-                return "Your new balance is " + this._balance;
+                return "Your new balance is " + this._balance + " AMD";
             } else {
                 return "Amount exceeded balance.";
             }
         } else {
-            return "Your balance has not been changed.";
+            return "The inserted money is a negative. Your balance has not been changed.";
         }
         
     }
 
     transferTo(anotherAccount, amount) {
         
-        if(Object.getOwnPropertyNames(anotherAccount).length == 3 && amount > 0) {
+        if(anotherAccount instanceof Account && amount > 0) {
             if(amount < anotherAccount.balance) {
                 this._balance -= amount;
                 anotherAccount.balance += amount;
-                return "Your new balance is " + this._balance;
+                return "Your new balance is " + this._balance + " AMD";
             } else {
-                return "Amount exceeded balance.";
+                return "The requested money is greater than your balance. No money was transferred.";
             }
         } else {
             return "No money has been transferred. Your balance has not been changed.";
@@ -362,7 +310,7 @@ class Account{
 
     static identifyAccounts(accountFirst, accountSecond) {
         //debugger;
-        if( Object.getOwnPropertyNames(accountFirst).length == 3 && Object.getOwnPropertyNames(accountSecond).length == 3) {
+        if( accountFirst instanceof Account && accountSecond instanceof Account) {
             let valuesOfFirstAccount = Object.values(accountFirst);
             let valuesOfSecondAccount = Object.values(accountSecond);
 
@@ -373,7 +321,6 @@ class Account{
                     return "These are two different accounts"
                 }
             }
-
             return "These accounts have the same data";
 
         } else {
@@ -384,7 +331,7 @@ class Account{
 
     // As ID is 'generated' for each instance of a class, I compare accounts with IDs. 
     static identifyAccountsByIDs(accountFirst, accountSecond) {
-        if (accountFirst.id == accountSecond.id) {
+        if (accountFirst instanceof Account && accountFirst === accountSecond) {
             return "These accounts are the same";
         } else {
             return "These are two different accounts";
@@ -393,12 +340,12 @@ class Account{
 
     toString() {
 
-        if(Object.getOwnPropertyNames(this).length == 3) {
-            let result = "This is an account of " + this._name + " with " + this._balance + " AMD . \n";
-            result += "Important! Account id can't be displayed!";
+        if(this instanceof Account) {
+            let result = "Account: " + this._name + ", balance: " + this._balance + " AMD . ";
+            result += "Important! Account's id can't be displayed!";
             return result;
         } else {
-            return "This Account is missing some info. Review it and add neccessary info. Good luck!";
+            return "Invalid object! Not printable!";
         }    
     }
 
@@ -437,34 +384,11 @@ class Person {
      * @param {number} age Person age
      */
     constructor(firstName, lastName, gender, age) {
-        // this._firstName = firstName;
-        // this._lastName = lastName;
-        // this._gender = gender;
-        // this._age = age;
-
-        if (firstName.length > 3 && /^[a-z A-Z]+|(\.+)$/.test(firstName)) {
-            this._firstName = firstName;
-        } else {
-            console.log("Person firstname is invalid. Please, insert a name with more than three letters");
-        }
-
-        if (lastName.length > 3 && /^[a-z A-Z]+|(\.+)$/.test(lastName)) {
-            this._lastName = lastName;
-        } else {
-            console.log("Person lastname is invalid. Please, insert a name with more than three letters.");
-        }
-
-        if (gender == 'F' || gender == 'M') {
-            this._gender = gender;
-        } else {
-            console.log("Person's gender is invalid. Please, insert 'F' for female People, 'M' for male People.")
-        }
-
-        if(Number(age) > 0) {
-            this._age = age;
-        } else {
-            console.log("Please, insert a valid age, it should be number.");
-        }
+        
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+        this.age = age;
 
     }
 
@@ -474,13 +398,14 @@ class Person {
 
     /**
      * 
-     * @param {string} newFirstName New firstname for Person, which should be at least 4 letters and can contain '.' from the symbols
+     * @param {string} newFirstName New firstname for Person, which should be at least 2 letters and can contain '.' from the symbols
      */
     set firstName(newFirstName){
-        if (newFirstName.length > 3 && /^[a-z A-Z]+|(\.+)$/.test(newFirstName)) {
+        if (newFirstName.length > 1 && /^[a-z A-Z]+|(\.+)$/.test(newFirstName)) {
             this._firstName = newFirstName;
         } else {
-            console.log("Person firstname is invalid. Please, insert a name with more than three letters");
+            this._firstName = "Unknown";
+            console.log("Person's firstname is set to 'Unknown'. Please, insert a valid name, which should be more than a letter");
         }
         
     }
@@ -497,7 +422,8 @@ class Person {
         if (newLastName.length > 3 && /^[a-z A-Z]+|(\.+)$/.test(newLastName)) {
             this._lastName = newLastName;
         } else {
-            console.log("Person lastname is invalid. Please, insert a name with more than three letters.");
+            this._lastName = "Unknown";
+            console.log("Person's lastname is set to 'Unknown'. Please, insert a valid name, which should be more than three letters.");
         }
     }
 
@@ -513,7 +439,8 @@ class Person {
         if (newGender == 'F' || newGender == 'M') {
             this._gender = newGender;
         } else {
-            console.log("Person's gender is invalid. Please, insert 'F' for female People, 'M' for male People.")
+            this._gender = 'unknown';
+            console.log("Person's gender is set to 'unknown'. Please, insert 'F' for female People, 'M' for male People.")
         }
     }
 
@@ -529,25 +456,20 @@ class Person {
         if(Number(newAge) > 0) {
             this._age = newAge;
         } else {
-            console.log("Please, insert a valid age, it should be number.");
+            this._age = 0;
+            console.log("Person's age is set to 0. Please, insert a valid age, which is greater than 0.");
         }
     }
 
     toString(){
 
-        debugger;
-        if(Object.getOwnPropertyNames(this).length == 5) {
-            let result = "Let me introduce you " + this.firstName + "  " + this.lastName + ".";
-            if (this.gender == "F") {
-                result += "She is ";
-            } else {
-                result += "He is ";
-            }
-
-            result += this.age + " years old.";
+        //debugger;
+        if(this instanceof Person) {
+            let result = "Full name: " + this.firstName + "  " + this.lastName + ", ";
+            result += "gender: " + this._gender + ", age: " + this.age + " .";
             return result;
         } else {
-            console.log("Person has missing data and cannot be printed!");
+            return "Invalid object! Not printable!";
         }
         
     }
@@ -570,9 +492,9 @@ class Student extends Person{
      */
     constructor(firstName, lastName, gender, age, programs, year, fee) {
         super(firstName, lastName, gender, age);
-        this._programs = programs;
-        this._year = year;
-        this._fee = fee;
+        this.programs = programs;
+        this.year = year;
+        this.fee = fee;
     }
 
     get programs(){
@@ -586,7 +508,8 @@ class Student extends Person{
         if(newPrograms.length > 0) {
             this._programs = newPrograms;
         } else {
-            console.log("Your program list is empty. Pick a new one!");
+            this._programs = [];
+            console.log("Student's program list is empty. Please, insert a valid program list.");
         }
         
     }
@@ -602,7 +525,8 @@ class Student extends Person{
         if(newYear >= new Date().getFullYear()) {
             this._year = newYear;
         } else {
-            console.log("Please, insert year which is greater or equal to the current year.")
+            this._year = new Date().getFullYear();
+            console.log("Student's class year is set to the current one. Please, insert another year.")
         }
        
     }
@@ -618,7 +542,8 @@ class Student extends Person{
         if(Number(newFee) > 0) {
             this._fee = newFee;
         } else {
-            console.log("Please, insert a valid fee per year.");
+            this._fee = 0;
+            console.log("Student's fee is set to 0. Please, insert a valid fee per year.");
         }
         
     }
@@ -631,15 +556,14 @@ class Student extends Person{
     }
 
     toString() {
-        super.toString();
-        let result = "";
-        if (this.gender == "F") {
-            result += "She is a student of ";
+          
+        if (this instanceof Student) {
+            let result = super.toString();
+            result += " Programs: " + this._programs + " , fee per year: " + this._fee + " AMD .";
+            return result;
         } else {
-            result += "He is a student of ";
+            return "Invalid object! Not printable!";
         }
-        result += this._year + " class year. The program list contans these classes : " + this._programs + ". The fee per year is " + this._fee + "AMD";
-        return result;
 
     }
 
@@ -659,8 +583,8 @@ class Teacher extends Person {
      */
     constructor(firstName, lastName, gender, age, program, salary) {
         super(firstName, lastName, gender, age);
-        this._program = program;
-        this._salary = salary;
+        this.program = program;
+        this.salary = salary;
     }
 
     get program(){
@@ -674,7 +598,8 @@ class Teacher extends Person {
         if(newProgram.length > 0) {
             this._program = newProgram;
         } else {
-            console.log("Please, insert a valid progran name.")
+            this._program = "";
+            console.log("Teacher's program is not defined. Please, insert a valid progran name.")
         }
     }
 
@@ -686,31 +611,30 @@ class Teacher extends Person {
      * @param {number} newSalary New salary for Teacher
      */
     set salary(newSalary){
-        if(newSalary > this._salary) {
+        if(newSalary > 0) {
             this._salary = newSalary;
         } else {
-            console.log("Please, insert valid salary, which is higher than the previous one.")
+            this._salary = 0;
+            console.log("Teacher's salary is set to 0. Please, insert a valid salary.")
         }
         
     }
 
     toString() {
-        super.toString();
-        let result = "";
-        if (this.gender == "F") {
-            result += "She teaches";
+          
+        if (this instanceof Student) {
+            let result = super.toString();
+            result += " Program: " + this._program + " , salary: " + this._salary + " AMD .";
+            return result;
         } else {
-            result += "He teaches";
+            return "Invalid object! Not printable!";
         }
-
-        result += this._program + " and gets " + this._salary + " AMD per month.";
-        return result;
 
     }
 
 }
 
-let s1 = new Student("Fred", "Weasley", "M", 21, ["Math", "Chemistry"], 2020, 350000);
-let s2 = new Student("George", "Weasley", "M", 21, ["Math", "Chemistry"], 2020, 350000);
+let s1 = new Student("Fred", "Weasley", "M", 21, ["Dark Arts", "Transfiguration"], 2020, 350000);
+let s2 = new Student("George", "Weasley", "M", 21, ["MDark Artsath", "Transfiguration"], 2020, 350000);
 let t1 = new Teacher("Severus", "Snape", "M", 45, "Dark Arts", 600000)
 let t2 = new Teacher("Minerva", "McGonagall", "F", 40, "Transfiguration ", 1600000)
