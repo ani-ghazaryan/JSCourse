@@ -486,13 +486,14 @@ class Student extends Person{
      * @param {string} lastName Lastname of Student
      * @param {string} gender Gender of Student
      * @param {number} age Age of Student
-     * @param {Array[string]} program Program list of Studet
+     * @param {Array[string]} programs Programs list of Student
      * @param {number} year ClassYear of Student
      * @param {number} fee Fee per year
      */
     constructor(firstName, lastName, gender, age, programs, year, fee) {
         super(firstName, lastName, gender, age);
         this.programs = programs;
+        //this._journal = this[createJournal(this._programs)];
         this.year = year;
         this.fee = fee;
     }
@@ -505,13 +506,26 @@ class Student extends Person{
      * @param {Array[string]} newProgram New program for Student, which have at least one class
      */
     set programs(newPrograms) {
+        //debugger;
         if(newPrograms.length > 0) {
             this._programs = newPrograms;
+            this._journal = this._createJournal(newPrograms);
         } else {
             this._programs = [];
+            this._journal = this._createJournal([]);
             console.log("Student's program list is empty. Please, insert a valid program list.");
         }
         
+    }
+
+    _createJournal(programs) {
+        //debugger;
+        let obj = new Object();
+        for(let i in programs) {
+            obj[programs[i]] = null;
+        }
+        
+        return obj;
     }
 
     get year(){
@@ -548,11 +562,28 @@ class Student extends Person{
         
     }
 
-    // ???????????? Not quite sure I got this correct
     passExam(program, grade) {
-        if(grade > 50) {
-            this._year++;
+        //debugger;
+        if ( this._programs.includes(program) ) {
+            if (grade >= 0 && grade <=100) {
+                this._journal[program] = grade;
+                let arr = Object.values(this._journal);
+        
+                let sum = arr.reduce((a,b) => a + b, 0);
+                if( sum > 50 * arr.length ) {
+                    this._year++;
+                    return "Next year.";
+                } else {
+                    return "Same Year.";
+                }
+            } else {
+                return "Grade is invalid. Pass it again.";
+            }
+            
+        } else {
+            return "At first, add this program to your programs list.";
         }
+        
     }
 
     toString() {
@@ -635,6 +666,7 @@ class Teacher extends Person {
 }
 
 let s1 = new Student("Fred", "Weasley", "M", 21, ["Dark Arts", "Transfiguration"], 2020, 350000);
-let s2 = new Student("George", "Weasley", "M", 21, ["MDark Artsath", "Transfiguration"], 2020, 350000);
+let s2 = new Student("George", "Weasley", "M", 21, ["Dark Arts", "Transfiguration"], 2020, 350000);
+s2.passExam("Dark Arts", 75);
 let t1 = new Teacher("Severus", "Snape", "M", 45, "Dark Arts", 600000)
 let t2 = new Teacher("Minerva", "McGonagall", "F", 40, "Transfiguration ", 1600000)
