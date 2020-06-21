@@ -132,8 +132,7 @@ class Book {
      */
     set author(author) {
         if(author instanceof Author) {
-            let [name, email, gender] = Object.values(author);
-            this._author = new Author(name, email, gender);
+            this._author = author;
         } else {
             this._author = {};
             console.log("No Author is set to this book. Please, set a valid Author.");
